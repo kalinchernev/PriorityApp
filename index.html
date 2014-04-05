@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>PriorityApp</title>
+    <link href="/assets/bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/style.css" rel="stylesheet">
+    <link href="/assets/jumbotron-narrow.css" rel="stylesheet">
+  </head>
+  <body>
+    <!-- Modal about missing value -->
+    <div class="modal fade" id="missing-value" tabindex="-1" role="dialog" aria-labelledby="missingValueLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="missingValueLabel">Value is required!</h4>
+          </div>
+          <div class="modal-body">
+              <p>Please, enter an actual value for the item!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>    
+    <!-- Modal "About" -->
+    <div class="modal fade" id="aboutPage" tabindex="-1" role="dialog" aria-labelledby="aboutPageLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title" id="aboutPageLabel">About the project</h4>
+          </div>
+          <div class="modal-body">
+              <p>Simple concept. Follow the instructions!</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>     
+    <div class="container">
+      <div class="header">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="#">App</a></li>
+          <li><a id="showAbout" href="#">About</a></li>
+          <li>
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                Export <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">PDF</a></li>
+                <li><a href="#">CSV</a></li>
+                <li><a href="#">To email</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Share!</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+        <h3 class="text-muted">PriorityApp</h3>
+      </div>
+      <div>
+        <h1>Priorities</h1>
+        <p class="lead">Taking decisions has to be easy! Go ahead:</p>
+        <ol>
+          <li>Enter all the priorities you can think of.</li>
+          <li>Click "Ready to go" when you've finished with the list.</li>
+          <li>Order the priorities, most important on top.</li>
+          <li>Click the button "Finish round" when you're ready. The last item will be fixed as being least priority.</li>
+          <li>Repeat step 2 and 3 until you have all the priorities fixed</li>
+          <li>Use the "Export" option to take away your results.</li>
+          <li>Be happy with your decision! :)</li>
+        </ol>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <h4>Options</h4>
+          <p>
+              <form role="form">
+                <div class="form-group">
+                  <label for="priorityInput">Priority</label>
+                  <input type="text" class="form-control" id="priorityInput" placeholder="Enter an item">
+                </div>
+                <button type="submit" id="add-item" class="btn btn-default">Add priority</button>
+                <button type="submit" id="freeze-form" class="btn btn-success">Ready to go!</button>
+                <button type="submit" id="reset" class="btn btn-danger">Reset</button>
+              </form>
+          </p>
+        </div>
+
+        <div class="col-lg-6">
+          <h4>Challenge accepted!</h4>
+          <p class="list-items"></p>
+        </div>
+      </div>
+
+      <div class="footer">
+        <p><span class="glyphicon glyphicon-thumbs-up"></span> Cheers!</p>
+      </div>
+
+    </div> <!-- /container -->
+
+    <script src="/assets/jquery-1.11.0.min.js"></script>
+    <script src="/assets/bootstrap-3.1.1-dist/js/bootstrap.min"></script>
+    <script src="/assets/jstorage.js"></script>
+    <script src="/assets/app.js"></script>
+  </body>
+</html>
