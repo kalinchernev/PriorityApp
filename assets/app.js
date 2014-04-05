@@ -11,7 +11,11 @@ $(".delete-item").on("click", deleteItem);
 $("#freeze-form").on("click", freezeForm);
 $("#reset").on("click", resetAll);
 $("#showAbout").on("click", showAbout);
-$(".list-item").dblclick(makeEditable);
+$(".list-item").bind(makeEditable);
+$(".list-item").bind({
+  dblclick: makeEditable,
+  blur: editItem
+});
     
 }(window.jQuery, window, document));
 
@@ -47,14 +51,15 @@ function makeEditable() {
 
 /**
  * Updates a given item
- * @param {integer} key 
- *  The key to edit
- * @param {string} value 
- *  The new value to set
  * @returns {void}
  */
-function editItem(key, value) {
+function editItem() {
+    var key, value;
     
+    key = $(this).data("itemKey");
+    value = $(this).text();
+    
+    $.jStorage.set(key, value);
 }
 
 /**
@@ -66,6 +71,7 @@ function deleteItem(e) {
     var key = $(this).parent().data("itemKey");
     $.jStorage.deleteKey(key);
     $(".list-items").find("[data-item-key='" + key + "']").remove();
+    location.reload();
 }
 
 /**
