@@ -1,8 +1,12 @@
 .messages {
     padding: 7px;
 }
+ul.list-items {
+	padding-left: 0; 
+}
 .list-item {
     border: 1px solid lightblue;
     padding: 5px;
     margin-bottom: 2px;
+    list-style: none;
 }

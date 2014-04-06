@@ -16,6 +16,9 @@ $(".list-item").bind({
   dblclick: makeEditable,
   blur: editItem
 });
+
+$( "#sortable-list" ).sortable();
+$( "#sortable-list" ).disableSelection();
     
 }(window.jQuery, window, document));
 
@@ -99,10 +102,11 @@ function displayItems(){
 
         for (var i = 0; i < items.length; i++ ) {
             item = $.jStorage.get(parseInt(items[i]));
-            newItem = "<div class='list-item' data-item-key='" + parseInt(items[i]) + "'>"
-                    + item + 
-                    "<a href='#' class='delete-item glyphicon glyphicon-remove pull-right'></a>" +
-                    "<div>";
+            newItem = "<li class='list-item' data-item-key='33'>item<a href='#' class='delete-item glyphicon glyphicon-remove pull-right'></li>";
+//            newItem = "<li class='list-item' data-item-key='" + parseInt(items[i]) + "'>"
+//                    + item + 
+//                    "<a href='#' class='delete-item glyphicon glyphicon-remove pull-right'></a>" +
+//                    "<li>";
             priorities.push(newItem);
         }
 
