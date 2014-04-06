@@ -9,6 +9,12 @@ displayItems();
 $("#add-item").on("click", addItem);
 $(".delete-item").on("click", deleteItem);
 $("#freeze-form").on("click", freezeForm);
+$("#freeze-round").bind({
+    click: function(e) {
+        e.preventDefault();
+        alert("freeze the round!");
+    }
+});
 $("#reset").on("click", resetAll);
 $("#showAbout").on("click", showAbout);
 $(".list-item").bind(makeEditable);
@@ -17,7 +23,7 @@ $(".list-item").bind({
   blur: editItem
 });
 
-$( "#sortable-list" ).sortable();
+$( "#sortable-list" ).sortable({ cursor: "pointer" });
 $( "#sortable-list" ).disableSelection();
     
 }(window.jQuery, window, document));
@@ -31,10 +37,19 @@ $( "#sortable-list" ).disableSelection();
 function addItem(event) {
     event.preventDefault();
     
-    var item;
+    var item, itemValue, itemWeigth, itemLocked;
     
-    item = $("#priorityInput").val();
-    if ( item.length > 0 ) {
+    itemValue = $("#priorityInput").val();
+    itemWeigth = nextWeigth();
+    itemLocked = false;
+    
+    item = {
+        itemValue: itemValue,
+        itemWeight: itemWeigth,
+        itemLocked: itemLocked
+    };
+    
+    if ( itemValue.length > 0 ) {
         $.jStorage.set(nextKey(), item);
         destroyItems();
         displayItems();
@@ -49,7 +64,6 @@ function addItem(event) {
  */
 function makeEditable() {
     $(this).prop("contentEditable", "true");
-//    $(this).blur().prop("contentEditable", "false");
 }
 
 /**
@@ -93,24 +107,25 @@ function destroyItems() {
  * @returns {void}
  */
 function displayItems(){
-    var items, item, newItem, priorities = [];
+    var items, newItem, priorities = [];
     
     items = getAll();
     
     if ( items !== null ) {
-        items.sort();
 
-        for (var i = 0; i < items.length; i++ ) {
-            item = $.jStorage.get(parseInt(items[i]));
-            newItem = "<li class='list-item' data-item-key='33'>item<a href='#' class='delete-item glyphicon glyphicon-remove pull-right'></li>";
-//            newItem = "<li class='list-item' data-item-key='" + parseInt(items[i]) + "'>"
-//                    + item + 
-//                    "<a href='#' class='delete-item glyphicon glyphicon-remove pull-right'></a>" +
-//                    "<li>";
-            priorities.push(newItem);
-        }
+    $.each(items, function(index, object) {
+        newItem = "<li class='list-item' data-locked='" 
+        + object.itemLocked + "' data-weigth='" 
+        + object.itemWeight + "' data-item-key='" 
+        + index 
+        + "'>" 
+        + object.itemValue 
+        + "<a href='#' class='delete-item glyphicon glyphicon-remove pull-right'></li>";
+        priorities.push(newItem);        
+    });
 
-        $(".list-items").append(priorities);        
+    $(".list-items").append(priorities);        
+    
     }
     return;
 }
@@ -121,9 +136,17 @@ function displayItems(){
  * List of currently available keys
  */
 function getAll() {
-    var list = $.jStorage.index();
+    var list, key, listJSON = {};
+    var value = {};
+    
+    list = $.jStorage.index();
+    for ( var i = 0; i < list.length; i++ ) {
+        key = parseInt(list[i]);
+        value = $.jStorage.get(key);
+        listJSON[i] = value;
+    }
     if ( list.length > 0 ) {
-        return list;        
+        return listJSON;        
     } else {
         return null;
     }
@@ -168,11 +191,32 @@ function nextKey() {
     if ( list === null ) {
         return 0;
     } else {
-        list.sort();
+//        list.sort();
         lastKeyElement = parseInt(list.length - 1);
         lastKey = parseInt(list[lastKeyElement]);
         return lastKey + 1;
     }
 }
 
-//Functions documentation: http://www.jstorage.info/#reference
+/**
+ * The weight property incremented for new item inputs
+ * @returns {integer} nextWeigth
+ *  The incremented value.
+ */
+function nextWeigth() {
+    var list, lastWeigthElement, nextWeigth;
+    
+    list = getAll();
+    console.log(list);
+    
+    nextWeigth = 0;
+    return nextWeigth;
+//    if ( list === null ) {
+//        return 0;
+//    } else {
+//        list.sort();
+//        lastKeyElement = parseInt(list.length - 1);
+//        lastKey = parseInt(list[lastKeyElement]);
+//        return lastKey + 1;
+//    }
+}
