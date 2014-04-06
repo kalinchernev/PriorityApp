@@ -10,10 +10,7 @@ $("#add-item").on("click", addItem);
 $(".delete-item").on("click", deleteItem);
 $("#freeze-form").on("click", freezeForm);
 $("#freeze-round").bind({
-    click: function(e) {
-        e.preventDefault();
-        alert("freeze the round!");
-    }
+    click: freezeLast
 });
 $("#reset").on("click", resetAll);
 $("#showAbout").on("click", showAbout);
@@ -23,7 +20,10 @@ $(".list-item").bind({
   blur: editItem
 });
 
-$( "#sortable-list" ).sortable({ cursor: "pointer" });
+$( "#sortable-list" ).sortable({
+    cursor: "pointer",
+    placeholder: "item-placeholder"
+});
 $( "#sortable-list" ).disableSelection();
     
 }(window.jQuery, window, document));
@@ -162,6 +162,37 @@ function freezeForm(e) {
 }
 
 /**
+ * Freezes the last list item
+ * @returns {void}
+ */
+function freezeLast() {
+    var elements, lastItemKey, lastItem;
+    elements = $(".list-items").children(".list-item");
+    lastItemKey = elements.last().data("itemKey");
+    incrementRounds();
+    console.log(lastItemKey);
+}
+
+/**
+ * Increments the number of roudns
+ * @returns {void}
+ */
+function incrementRounds() {
+    var rounds = 0;
+    
+    rounds = $.jStorage.get("rounds");
+    if ( rounds === 0 ) {
+        $.jStorage.set("rounds", parseIt(0));
+        console.log(rounds);
+    } else {
+        rounds = parseInt($.jStorage.get("rounds"));
+        rounds++;
+        $.jStorage.set("rounds", rounds);
+        console.log(rounds);
+    }
+}
+
+/**
  * Removes all list items and enables the form.
  * @returns {void}
  */
@@ -185,17 +216,24 @@ function showAbout() {
  *  The incremented key for new value.
  */
 function nextKey() {
-    var list, lastKeyElement, lastKey;
+    var list, nextKey, highestKey = 0;
     
     list = getAll();
+    
     if ( list === null ) {
-        return 0;
-    } else {
-//        list.sort();
-        lastKeyElement = parseInt(list.length - 1);
-        lastKey = parseInt(list[lastKeyElement]);
-        return lastKey + 1;
+        nextKey = highestKey; // zero, first element
+        return nextKey;
     }
+    
+    $.each(list, function(index, element) {
+        if ( index > highestKey ) {
+            highestKey = index; 
+        }
+    });
+    
+    nextKey = highestKey + 1;
+    return nextKey;
+return 0;
 }
 
 /**
@@ -204,19 +242,24 @@ function nextKey() {
  *  The incremented value.
  */
 function nextWeigth() {
-    var list, lastWeigthElement, nextWeigth;
+    var list, highestWeigth = 0, higherWeigth, nextWeigth;
     
     list = getAll();
-    console.log(list);
     
-    nextWeigth = 0;
+    if ( list === null ) {
+        nextWeigth = highestWeigth;
+        return nextWeigth;
+    }
+    
+    $.each(list, function(index, element) {
+        if ( element.itemWeigth > highestWeigth ) {
+            higherWeigth = element.itemWeigth; 
+        } else {
+            higherWeigth = highestWeigth; 
+        }
+        highestWeigth = higherWeigth;
+    });
+    
+    nextWeigth = highestWeigth + 1;
     return nextWeigth;
-//    if ( list === null ) {
-//        return 0;
-//    } else {
-//        list.sort();
-//        lastKeyElement = parseInt(list.length - 1);
-//        lastKey = parseInt(list[lastKeyElement]);
-//        return lastKey + 1;
-//    }
 }

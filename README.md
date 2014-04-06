@@ -2,6 +2,7 @@ PriorityApp
 ===========
 
 Helper on deciding upon a list of personal priorities.
+NB: There are many bugs for the moment!
 
 Screenshot
 =====================
